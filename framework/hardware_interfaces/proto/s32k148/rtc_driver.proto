@@ -1,0 +1,36 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_s32k148;
+
+service RtcDriver {
+    rpc RTC_DRV_Init (RtcInitParams) returns (rpc_general.Status) {}
+    rpc RTC_DRV_Enable (RtcHandle) returns (rpc_general.Status) {}
+    rpc RTC_DRV_Disable (RtcHandle) returns (rpc_general.Status) {}
+    rpc RTC_DRV_SetTimeSeconds (RtcSetTimeParams) returns (rpc_general.Status) {}
+    rpc RTC_DRV_ConfigureAlarm (RtcConfAlarmParams) returns (rpc_general.Status) {}
+}
+
+message RtcHandle {
+    uint32 instance = 1;
+}
+
+message RtcInitParams {
+    uint32 instance = 1;
+    int32 seconds_irq_id = 2;
+    int32 irq_id = 3;
+}
+
+message RtcSetTimeParams {
+    uint32 instance = 1;
+    uint32 seconds = 2;
+}
+
+message RtcConfAlarmParams {
+    uint32 instance = 1;
+    uint32 time = 2;
+    uint32 rep_interval = 3;
+    uint32 number_of_reps = 4;
+    bool repeat_forever = 5;
+    bool alarm_int_enable = 6;
+}

@@ -1,0 +1,31 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_general;
+
+
+service Connect {
+    rpc HandShake (HandShakeRequest) returns (HandShakeReply) {}
+    rpc Close (CloseRequest) returns (CloseReply) {}
+}
+
+message HandShakeRequest {
+    string message = 1;
+}
+
+message HandShakeReply {
+    string message = 1;
+}
+
+enum CloseRequestEnum {
+    FSW_CLOSE_REQ_RESET = 0;
+    FSW_CLOSE_REQ_CRITICAL_ERROR = 1;
+}
+
+message CloseRequest {
+    CloseRequestEnum code = 1;
+}
+
+message CloseReply {
+    Status status = 1;
+}

@@ -1,0 +1,21 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_s32k148;
+
+service FtmIcDriver {
+    rpc FtmIc_DRV_Init (FtmIcInitParams) returns (rpc_general.Status) {}
+    rpc FtmIc_DRV_Start (FtmIcHandle) returns (rpc_general.Status) {} 
+    rpc FtmIc_DRV_Stop (FtmIcHandle) returns (rpc_general.Status) {} 
+}
+
+message FtmIcInitParams {
+    uint32 instance = 1;
+    int32 irq_id = 2;
+    uint32 channel = 3;
+}
+
+message FtmIcHandle {
+    uint32 instance = 1;
+    uint32 channel = 2;
+}

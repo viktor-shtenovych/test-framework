@@ -1,0 +1,45 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_mpc5777c;
+
+service PinsDriver {
+    rpc PINS_DRV_Init (PinsInitParams) returns (rpc_general.Status) {}
+    rpc PINS_DRV_QuickReadPin (PinReadParams) returns (PinReadReturn) {}
+    rpc PINS_DRV_QuickWritePin (PinWriteParams) returns (rpc_general.Status) {}
+    rpc PINS_DRV_QuickConfigOutputMux (ConfigMuxParams) returns (rpc_general.Status) {}
+    rpc PINS_DRV_QuickConfigInputMux (ConfigMuxParams) returns (rpc_general.Status) {}
+}
+
+message PinSettingConfig {
+    uint32 pin_id = 1;
+    uint32 init_value = 2;
+    uint32 mux = 3;
+    bool output_mux_enable = 4;
+    bool input_mux_enable = 5;
+}
+
+message ConfigMuxParams {
+    uint32 pin_id = 1;
+    bool enable = 2;
+    uint32 mux = 3;
+}
+
+message PinReadParams {
+    uint32 pin_id = 1;
+}
+
+message PinWriteParams {
+    uint32 pin_id = 1;
+    uint32 value = 2;
+}
+
+message PinsInitParams {
+    int32 irq_id = 1;
+    repeated PinSettingConfig config = 2;
+}
+
+message PinReadReturn {
+    rpc_general.Status status = 1;
+    uint32 value = 2;
+}

@@ -1,0 +1,22 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_general;
+
+service Interrupts {
+    rpc WaitForInterrupt (IdleContext) returns (InterruptContextQueue) {}
+}
+
+message IdleContext {
+    uint32 idle_cycles = 1;
+}
+
+message InterruptContext {
+    int32 irq_id = 1;
+    uint32 irq_flags = 2;
+    uint64 time = 3;
+}
+
+message InterruptContextQueue {
+    repeated InterruptContext queue = 1;
+}

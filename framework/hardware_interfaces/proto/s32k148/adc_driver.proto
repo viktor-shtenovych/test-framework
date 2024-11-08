@@ -1,0 +1,32 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_s32k148;
+
+service AdcDriver {
+    rpc AdcDriver_InitChannel (ADInitParams) returns (rpc_general.Status) {}
+    rpc AdcDriver_ResetInstance (ADResetParams) returns (rpc_general.Status) {}
+    rpc AdcDriver_GetChannelValue (ADHandle) returns (ADGetValueReturn) {}
+}
+
+message ADInitParams {
+    uint32 instance_id = 1;
+    uint32 channel_id = 2;
+    uint32 vref_mv = 3;
+    uint32 counts_max = 4;
+    int32 irq_id = 5;
+}
+
+message ADResetParams {
+    uint32 instance_id = 1;
+}
+
+message ADHandle {
+    uint32 instance_id = 1;
+    uint32 channel_id = 2;
+}
+
+message ADGetValueReturn {
+    rpc_general.Status status = 1;
+    uint32 counts = 2;
+}

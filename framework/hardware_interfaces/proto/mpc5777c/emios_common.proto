@@ -1,0 +1,35 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_mpc5777c;
+
+service EmiosCommon {
+    rpc EMIOS_DRV_InitGlobal(EmiosInitGlobalParams) returns (rpc_general.Status) {}
+    rpc EMIOS_DRV_SetPrescalerEnableBit (EmiosSetPrescalerEnParams) returns (rpc_general.Status) {}
+}
+
+enum EmiosInputFilterType {
+    EMIOS_INPUT_FILTER_BYPASS         = 0;
+    EMIOS_INPUT_FILTER_02             = 1;
+    EMIOS_INPUT_FILTER_04             = 2;
+    EMIOS_INPUT_FILTER_08             = 4;
+    EMIOS_INPUT_FILTER_16             = 8;
+}
+
+message EmiosInitGlobalParams {
+    uint32 emios_group = 1;
+    bool allow_debug_mode = 2;
+    bool low_power_mode = 3;
+    uint32 clk_div_val = 4;
+    bool enable_global_prescaler = 5;
+    bool enable_global_time_base = 6;
+    bool enable_external_time_base = 7;
+    uint32 server_time_slot = 8;
+    int32 irq_id = 9;
+}
+
+message EmiosSetPrescalerEnParams {
+    uint32 emios_group = 1;
+    uint32 channel = 2;
+    bool value = 3;
+}

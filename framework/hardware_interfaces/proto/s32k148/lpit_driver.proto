@@ -1,0 +1,25 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_s32k148;
+
+service LpitDriver {
+    rpc LPIT_DRV_Init (LpitInitParams) returns (rpc_general.Status) {}
+    rpc LPIT_DRV_Start (LpitHandle) returns (rpc_general.Status) {}
+    rpc LPIT_DRV_Stop (LpitHandle) returns (rpc_general.Status) {}
+    rpc LPIT_DRV_SetPeriod (LpitSetPeriodParams) returns (rpc_general.Status) {}
+}
+
+message LpitInitParams {
+    uint32 timer_id = 1;
+    int32 irq_id = 2;
+}
+
+message LpitHandle {
+    uint32 timer_id = 1;
+}
+
+message LpitSetPeriodParams {
+    uint32 timer_id = 1; 
+    uint32 period = 2;
+}

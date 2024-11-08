@@ -1,0 +1,38 @@
+syntax = "proto3";
+import "common.proto";
+import "emios_common.proto";
+
+package rpc_mpc5777c;
+
+service EmiosQdecDriver {
+    rpc EMIOS_DRV_QDEC_Init_and_Reset (EmiosQdecParams) returns (rpc_general.Status) {}
+    rpc EMIOS_DRV_QDEC_SetTarget(EmiosQdecTargetParams) returns (rpc_general.Status) {}
+}
+
+enum EmiosQdecMode {
+    EmiosQdecMode_ZERO      = 0;
+    EmiosQdecMode_DIRECTION = 12;
+    EmiosQdecMode_PHASE     = 13;
+}
+
+enum EmiosPulsePolarityType {
+    EmiosPulsePolarityType_NEGATIVE = 0;
+    EmiosPulsePolarityType_POSITIVE = 1;  
+}
+
+message EmiosQdecParams {
+    uint32 emios_group = 1;
+    uint32 channel = 2;
+    EmiosQdecMode mode = 3;
+    EmiosInputFilterType filter_input = 4;
+    bool filter_en = 5;
+    EmiosPulsePolarityType chan_polarity = 6;
+    EmiosPulsePolarityType aux_chan_polarity = 7;
+    int32 irq_id = 8;
+}
+
+message EmiosQdecTargetParams {
+    uint32 emios_group = 1;
+    uint32 channel = 2;
+    uint32 target = 3;
+}

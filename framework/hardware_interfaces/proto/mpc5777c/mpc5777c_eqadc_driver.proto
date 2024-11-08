@@ -1,0 +1,44 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_mpc5777c;
+
+service EqAdcDriver {
+    rpc EQADC_DRV_CC_Init (EqAdcInitParams) returns (rpc_general.Status) {}
+    rpc EQADC_DRV_CC_CalibrateConverter (EqAdcCcCalibrateConverterParams) returns (rpc_general.Status) {}
+    rpc EQADC_DRV_CC_SamplesRequest (EqAdcCCSamplesRequestParams) returns (rpc_general.Status) {}
+}
+
+message EqAdcConfig {
+    uint32 adc_id = 1;
+    uint32 prescaler = 2;
+    uint32 gain = 3;
+    uint32 offset = 4;
+}
+
+message EqAdcCommand {
+    uint32 channel_id = 1;
+    uint32 sampling_time = 2;
+    bool enable_calib = 3;
+    bool enable_sign = 4;
+    bool pause = 5;
+}
+
+message EqAdcInitParams {
+    uint32 instance_id = 1;
+    uint32 samples_num = 2;
+    repeated EqAdcConfig adc_config = 3;
+    repeated EqAdcCommand adc_commands = 4;
+    int32 irq_id = 5;
+}
+
+message EqAdcCcCalibrateConverterParams {
+    uint32 instance_id = 1;
+    uint32 gain = 2;
+    int32 offset = 3;
+}
+
+message EqAdcCCSamplesRequestParams {
+    uint32 instance_id = 1;
+    repeated int32 channel_id = 2;
+}

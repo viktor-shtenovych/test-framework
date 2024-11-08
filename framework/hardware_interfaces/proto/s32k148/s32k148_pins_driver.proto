@@ -1,0 +1,45 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_s32k148;
+
+service PinsDriver {
+    rpc PINS_DRV_Init (PinsInitParams) returns (rpc_general.Status) {}
+    rpc PINS_DRV_SetDirection (PinSetDirectionParams) returns (rpc_general.Status) {}
+    rpc PINS_DRV_WritePin (PinWriteParams) returns (rpc_general.Status) {}
+}
+
+enum Direction {
+    FSW_IN = 0;
+    FSW_OUT = 1;
+    FSW_UNDEFINED = 2;
+}
+
+message PinSettingConfig {
+    uint32 pin_id = 1;
+    uint32 port_id = 2;
+    Direction direction = 3;
+    uint32 init_value = 4;
+}
+
+message PortIrqId {
+    uint32 port_id = 1;
+    int32 irq_id = 2;
+}
+
+message PinSetDirectionParams {
+    uint32 pin_id = 1;
+    uint32 port_id = 2;
+    Direction direction = 3;
+}
+
+message PinWriteParams {
+    uint32 pin_id = 1;
+    uint32 port_id = 2;
+    uint32 value = 3;
+}
+
+message PinsInitParams {
+    repeated PinSettingConfig config = 1;
+    repeated PortIrqId irq_ids = 2;
+}

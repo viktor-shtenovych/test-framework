@@ -1,0 +1,78 @@
+syntax = "proto3";
+import "common.proto";
+import "emios_common.proto";
+
+package rpc_mpc5777c;
+
+service EmiosMcDriver {
+    rpc EMIOS_DRV_MC_InitMode (EmiosMcInitParams) returns (rpc_general.Status) {}
+    rpc EMIOS_DRV_MC_SetPeriodValue (EmiosMcSetPeriodParams) returns (rpc_general.Status) {}
+}
+
+enum EmiosMcMode {
+    EMIOS_MODE_MC_ZERO                           = 0;
+    EMIOS_MODE_MC_UP_CNT_CLR_START_INT_CLK       = 16;     /*!< Modulus Counter (Up counter with clear on match start), internal clock */
+    EMIOS_MODE_MC_UP_CNT_CLR_START_EXT_CLK       = 17;     /*!< Modulus Counter (Up counter with clear on match start), external clock */
+    EMIOS_MODE_MC_UP_CNT_CLR_END_INT_CLK         = 18;     /*!< Modulus Counter (Up counter with clear on match end), internal clock */
+    EMIOS_MODE_MC_UP_CNT_CLR_END_EXT_CLK         = 19;     /*!< Modulus Counter (Up counter with clear on match end), external clock */
+
+    EMIOS_MODE_MC_UPDOWN_CNT_FLAGX1_INT_CLK      = 20;     /*!< Modulus Counter (Up/Down counter), internal clock */
+    EMIOS_MODE_MC_UPDOWN_CNT_FLAGX1_EXT_CLK      = 21;     /*!< Modulus Counter (Up/Down counter), external clock */
+    EMIOS_MODE_MC_UPDOWN_CNT_FLAGX2_INT_CLK      = 22;     /*!< Modulus Counter (Up/Down counter), internal clock */
+    EMIOS_MODE_MC_UPDOWN_CNT_FLAGX2_EXT_CLK      = 23;     /*!< Modulus Counter (Up/Down counter), external clock */
+
+    EMIOS_MODE_MCB_UP_COUNTER_INT_CLK            = 80;     /*!< Modulus Counter Buffered (Up counter), using internal clock */
+    EMIOS_MODE_MCB_UP_COUNTER_EXT_CLK            = 81;     /*!< Modulus Counter Buffered (Up counter), using external clock */
+
+    EMIOS_MODE_MCB_UPDOWN_CNT_FLAGX1_INT_CLK     = 84;     /*!< Modulus Counter Buffered (Up/Down counter),
+                                                                   Flags are generated only at A1 match start, Using internal clock */
+    EMIOS_MODE_MCB_UPDOWN_CNT_FLAGX1_EXT_CLK     = 85;     /*!< Modulus Counter Buffered (Up/Down counter),
+                                                                   Flags are generated only at A1 match start, Using external clock */
+    EMIOS_MODE_MCB_UPDOWN_CNT_FLAGX2_INT_CLK     = 86;     /*!< Modulus Counter Buffered (Up/Down counter),
+                                                                   Flags are generated at A1 match start and cycle boundary, Using internal clock */
+    EMIOS_MODE_MCB_UPDOWN_CNT_FLAGX2_EXT_CLK     = 87;      /*!< Modulus Counter Buffered (Up/Down counter),                                                                  Flags are generated at A1 match start and cycle boundary, Using external clock */
+}
+
+enum EmiosClockInternalPsType {
+    EMIOS_CLOCK_DIVID_BY_1            = 0;                /*!< Divide by 1 */
+    EMIOS_CLOCK_DIVID_BY_2            = 1;                /*!< Divide by 2 */
+    EMIOS_CLOCK_DIVID_BY_3            = 2;                /*!< Divide by 3 */
+    EMIOS_CLOCK_DIVID_BY_4            = 3;                /*!< Divide by 4 */
+    EMIOS_CLOCK_DIVID_BY_5            = 4;                /*!< Divide by 5 */
+    EMIOS_CLOCK_DIVID_BY_6            = 5;                /*!< Divide by 6 */
+    EMIOS_CLOCK_DIVID_BY_7            = 6;                /*!< Divide by 7 */
+    EMIOS_CLOCK_DIVID_BY_8            = 7;                /*!< Divide by 8 */
+    EMIOS_CLOCK_DIVID_BY_9            = 8;                /*!< Divide by 9 */
+    EMIOS_CLOCK_DIVID_BY_10           = 9;                /*!< Divide by 10 */
+    EMIOS_CLOCK_DIVID_BY_11           = 10;               /*!< Divide by 11 */
+    EMIOS_CLOCK_DIVID_BY_12           = 11;               /*!< Divide by 12 */
+    EMIOS_CLOCK_DIVID_BY_13           = 12;               /*!< Divide by 13 */
+    EMIOS_CLOCK_DIVID_BY_14           = 13;               /*!< Divide by 14 */
+    EMIOS_CLOCK_DIVID_BY_15           = 14;               /*!< Divide by 15 */
+    EMIOS_CLOCK_DIVID_BY_16           = 15;               /*!< Divide by 16 */
+}
+
+enum EmiosEdgeTriggerMode{
+    EMIOS_TRIGGER_EDGE_FALLING        = 0;               /*!< Falling edge trigger */
+    EMIOS_TRIGGER_EDGE_RISING         = 1;               /*!< Rising edge trigger */
+    EMIOS_TRIGGER_EDGE_ANY            = 2;               /*!< Rising and falling edge trigger */
+}
+
+message EmiosMcInitParams {
+    uint32 emios_group = 1;
+    uint32 channel = 2;
+    EmiosMcMode mode = 3;
+    uint32 period = 4;
+    EmiosClockInternalPsType internal_prescaler = 5;
+    bool internal_prescaler_en = 6;
+    EmiosInputFilterType filter_input = 7;
+    bool filter_en = 8;
+    EmiosEdgeTriggerMode trigger_mode = 9;
+    int32 irq_id = 10;
+}
+
+message EmiosMcSetPeriodParams {
+    uint32 emios_group = 1;
+    uint32 channel = 2;
+    uint32 period = 3;
+}

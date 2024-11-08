@@ -1,0 +1,6 @@
+[0] INFO: <Entered 'main' function. Connecting to: |localhost:50051|.>
+[0] NOTE: <INT_SYS_InstallHandler IRQ id: -15, first update: 1.>
+[0] NOTE: <HandShake received: Test framework says hello to FLU Emulator>
+[0] INFO: <Connected to: |localhost:50051|.>
+[0] ERROR: <Dec_ReportError: file: C:/Projects/fluidics-emulator/application/flu_ctl/app/src/main.cpp, line: 147, sId: 0, errId: 2, dVal: 0.>
+[0] ERROR: <tchain_assert!!!>

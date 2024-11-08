@@ -1,0 +1,29 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_mpc5777c;
+
+service PitDriver {
+    rpc PIT_DRV_StartChannel (PitChannelParams) returns (rpc_general.Status) {}
+    rpc PIT_DRV_StopChannel (PitChannelParams) returns (rpc_general.Status) {}
+    rpc PIT_DRV_SetPeriodByUs (PitSetPeriodByUsParams) returns (rpc_general.Status) {}
+    rpc PIT_DRV_EnableInterrupt (PitChannelIrqParams) returns (rpc_general.Status) {}
+    rpc PIT_DRV_DisableInterrupt (PitChannelIrqParams) returns (rpc_general.Status) {}
+}
+
+message PitChannelParams {
+    uint32 instance_id = 1;
+    uint32 channel_id = 2;
+}
+
+message PitChannelIrqParams {
+    uint32 instance_id = 1;
+    uint32 channel_id = 2;
+    uint32 irq_id = 3;
+}
+
+message PitSetPeriodByUsParams {
+    uint32 instance_id = 1;
+    uint32 channel_id = 2;
+    uint32 period_us = 3;
+}

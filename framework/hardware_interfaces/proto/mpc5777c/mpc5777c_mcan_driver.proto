@@ -1,0 +1,77 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_mpc5777c;
+
+service MCanDriver {
+    rpc MCAN_DRV_Init (MCInitParams) returns (rpc_general.Status) {}
+
+    rpc MCAN_DRV_Send (MCSendParams) returns (rpc_general.Status) {}
+
+    rpc MCAN_DRV_SetRxFifoFilterMask (MCSetRxFifoFiletrMaskParams) returns (rpc_general.Status) {}
+
+    rpc MCAN_DRV_ReceiveReq (MCReceiveReqParams) returns (rpc_general.Status) {}
+    rpc MCAN_DRV_GetReceivedData (MCGetReceivedDataParams) returns (MCGetReceivedDataReturn) {}
+}
+
+enum MCIrqFlags {
+    MCIrqFlags_RX_COMPLETE = 0;
+    MCIrqFlags_TX_COMPLETE = 1;
+    MCIrqFlags_RX0FIFO_COMPLETE = 2;
+}
+
+enum MCMsgIdType {
+    MCMsgIdType_STD = 0;
+    MCMsgIdType_EXT = 1;
+}
+
+enum MCMode {
+  MC_NORMAL_MODE = 0;
+  MC_LISTEN_ONLY_MODE = 1;
+  MC_LOOPBACK_MODE = 2;
+  MC_TEST_MODE = 3;
+  MC_DISABLE_MODE = 4;
+}
+
+message MCInitParams {
+    uint32 instance_id = 1;
+    MCMode mode = 2;
+    uint32 fd_enable = 3;
+    uint32 payload = 4;
+    int32 irq_id = 5;
+    uint32 max_num_mb = 6;
+    uint32 num_id_rx_filters = 7;
+}
+
+message MCSendParams {
+    uint32 instance_id = 1;
+    uint32 vmb_idx = 2;
+    MCMsgIdType msg_id_type = 3;
+    uint32 msg_id = 4;
+    bytes mb_data = 5;
+}
+
+message MCSetRxFifoFiletrMaskParams {
+    uint32 instance_id = 1;
+    MCMsgIdType msg_id_type = 2;
+    uint32 fl_idx = 3;
+    uint32 id = 4;
+    uint32 mask = 5;
+}
+
+message MCReceiveReqParams {
+    uint32 instance_id = 1;
+    uint32 vmb_idx = 2;
+}
+
+message MCGetReceivedDataParams {
+    uint32 instance_id = 1;
+    uint32 vmb_idx = 2;
+}
+
+message MCGetReceivedDataReturn {
+    rpc_general.Status status = 1;
+    uint32 instance_id = 2;
+    uint32 msg_id = 3;
+    bytes mb_data = 4;
+}

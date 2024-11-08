@@ -1,0 +1,32 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_s32k148;
+
+service PwmDriver {
+    rpc PwmDriver_InitChannel (PDInitParams) returns (rpc_general.Status) {}
+    rpc PwmDriver_SetPeriod (PDSetPeriodParams) returns (rpc_general.Status) {}
+    rpc PwmDriver_SetDutyCycle (PDSetDutyCycleParams) returns (rpc_general.Status) {}
+}
+
+enum PDPolarity {
+    PDPolarity_LOW = 0;
+    PDPolarity_HIGH = 1;
+}
+
+message PDInitParams {
+    uint32 instance_id = 1;
+    uint32 channel_id = 2;
+    PDPolarity polarity = 3;
+}
+
+message PDSetPeriodParams {
+    uint32 instance_id = 1;
+    uint32 period = 2;
+}
+
+message PDSetDutyCycleParams {
+    uint32 instance_id = 1;
+    uint32 channel_id = 2;
+    uint32 duty_cycle = 3;
+}

@@ -1,0 +1,80 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_general;
+
+service FlexCanDriver {
+    rpc FLEXCAN_DRV_Init (FCInitParams) returns (Status) {}
+
+    rpc FLEXCAN_DRV_EnterFreezeMode (FCFreezeModeParams) returns (Status) {}
+    rpc FLEXCAN_DRV_ExitFreezeMode (FCFreezeModeParams) returns (Status) {}
+
+    rpc FLEXCAN_DRV_Send (FCSendParams) returns (Status) {}
+
+    rpc FLEXCAN_DRV_SetRxIndividualMask (FCSetRxIndMaskParams) returns (Status) {}
+    rpc FLEXCAN_DRV_ConfigRxMb (FCConfigRxMbParams) returns (Status) {}
+    rpc FLEXCAN_DRV_ReceiveReq (FCReceiveReqParams) returns (Status) {}
+    rpc FLEXCAN_DRV_GetReceivedData (FCGetReceivedDataParams) returns (FCGetReceivedDataReturn) {}
+}
+
+enum FCIrqFlags {
+    FCIrqFlags_RX_COMPLETE = 0;
+    FCIrqFlags_TX_COMPLETE = 4;
+    FCIrqFlags_ERROR = 11;
+}
+
+enum FCMsgIdType {
+    FCMsgIdType_STD = 0;
+    FCMsgIdType_EXT = 1;
+}
+
+message FCInitParams {
+    uint32 instance_id = 1;
+    int32 irq_id = 2;
+    uint32 max_num_mb = 3;
+    uint32 num_id_rx_filters = 4;
+}
+
+message FCFreezeModeParams {
+    uint32 instance_id = 1;
+}
+
+message FCSendParams {
+    uint32 instance_id = 1;
+    uint32 mb_idx = 2;
+    FCMsgIdType msg_id_type = 3;
+    uint32 msg_id = 4;
+    bytes mb_data = 5;
+}
+
+message FCSetRxIndMaskParams {
+    uint32 instance_id = 1;
+    uint32 mb_idx = 2;
+    FCMsgIdType msg_id_type = 3;
+    uint32 mask = 4;
+}
+
+message FCConfigRxMbParams {
+    uint32 instance_id = 1;
+    uint32 mb_idx = 2;
+    FCMsgIdType msg_id_type = 3;
+    uint32 msg_id = 4;
+    uint32 data_length = 5;
+}
+
+message FCReceiveReqParams {
+    uint32 instance_id = 1;
+    uint32 mb_idx = 2;
+}
+
+message FCGetReceivedDataParams {
+    uint32 instance_id = 1;
+    uint32 mb_idx = 2;
+}
+
+message FCGetReceivedDataReturn {
+    Status status = 1;
+    uint32 instance_id = 2;
+    uint32 msg_id = 3;
+    bytes mb_data = 4;
+}

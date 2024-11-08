@@ -1,0 +1,34 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_s32k148;
+
+service SifDriver {
+    rpc SIF_DRV_Init (SifInitParams) returns (rpc_general.Status) {}
+    rpc SIF_DRV_Write (SifWriteParams) returns (rpc_general.Status) {}
+    rpc SIF_DRV_Read (SifReadParams) returns (SifReadReturns) {}
+}
+
+message SifInitParams {
+    uint32 instance = 1;
+    int32 irq_id = 2;
+}
+
+message SifReadParams {
+    uint32 instance = 1;
+    int32 periph_id = 2;
+    uint32 size = 3;
+    bool irq_required = 4;
+}
+
+message SifWriteParams {
+    uint32 instance = 1;
+    int32 periph_id = 2;
+    bytes message = 3;
+    bool irq_required = 4;
+}
+
+message SifReadReturns {
+    rpc_general.Status status = 1;
+    bytes message = 2;
+}

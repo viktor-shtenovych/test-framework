@@ -1,0 +1,37 @@
+syntax = "proto3";
+import "common.proto";
+
+package rpc_mpc5777c;
+
+service EtpuI2cDriver {
+    rpc ETPU_I2C_DRV_Init (EtpuI2cInitParams) returns (rpc_general.Status) {}
+    rpc ETPU_I2C_DRV_Transmit (EtpuI2cTransmitParams) returns (rpc_general.Status) {}
+    rpc ETPU_I2C_DRV_ReceiveReq (EtpuI2cReceiveReqParams) returns (rpc_general.Status) {}
+    rpc ETPU_I2C_DRV_GetReceivedData(EtpuI2cInterfaceIdParams) returns (EtpuI2cGetReceivedDataReturn) {}
+}
+
+message EtpuI2cInitParams {
+    uint32 instance_id = 1;
+    int32 irq_id = 3;
+}
+
+message EtpuI2cReceiveReqParams {
+    uint32 instance_id = 1;
+    uint32 device_address = 3;
+    uint32 size = 4;
+}
+
+message EtpuI2cTransmitParams {
+    uint32 instance_id = 1;
+    uint32 device_address = 3;
+    bytes message = 4;
+}
+
+message EtpuI2cInterfaceIdParams {
+    uint32 instance_id = 1;
+}
+
+message EtpuI2cGetReceivedDataReturn {
+    rpc_general.Status status = 1;
+    bytes message = 2;
+}
